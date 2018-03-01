@@ -1,22 +1,18 @@
 package tw.hankli.mvvmdemo.model;
 
+import io.reactivex.Completable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
+
 /**
  * Created by hank on 12/02/2018.
  * 純服務區
  */
 
-public class LoginApi {
+public interface LoginApi {
 
-    public boolean login(String username, String password) {
-        // TODO 呼叫遠端，驗證身份
-        return validate(username, password);
-    }
-
-    private boolean validate(String username, String password) {
-        if (username.equals("1234") && password.equals("1234")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    @FormUrlEncoded
+    @POST("/validation")
+    Completable validate(@Field("username") String username, @Field("password") String password);
 }

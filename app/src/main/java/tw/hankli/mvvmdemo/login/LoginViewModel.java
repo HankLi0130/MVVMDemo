@@ -1,25 +1,31 @@
 package tw.hankli.mvvmdemo.login;
 
-import android.arch.lifecycle.ViewModel;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.support.annotation.NonNull;
 
-import io.reactivex.Single;
+import javax.inject.Inject;
+
+import io.reactivex.Completable;
+import tw.hankli.mvvmdemo.App;
 import tw.hankli.mvvmdemo.model.LoginRepository;
 
 /**
  * Created by hank on 13/02/2018.
  */
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
 
-    private LoginRepository loginRepository;
+    @Inject
+    LoginRepository loginRepository;
 
-    public LoginViewModel() {
+    public LoginViewModel(@NonNull Application application) {
+        super(application);
 
-        // TODO 可使用 DI Library 注入
-        loginRepository = new LoginRepository();
+        ((App) application).getAppComponent().inject(this);
     }
 
-    public Single<Boolean> login(String username, String password) {
+    public Completable login(String username, String password) {
 
         return loginRepository.loginByApi(username, password);
 
